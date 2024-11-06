@@ -6,8 +6,8 @@ import axios from '../axios/axios.ts';
 const LOGIN_URL = '/login';
 
 interface LoginResponse {
-    user: string;
-    accessToken: string;
+    username: string;
+    token: string;
 }
 
 const Login = () => {
@@ -15,13 +15,13 @@ const Login = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const from = location.state?.from?.pathname || "/";
+    const from = location.state?.from?.pathname || "/home";
 
     const userRef = useRef<HTMLInputElement>(null);
     const errRef = useRef<HTMLParagraphElement>(null);
 
-    const [user, setUser] = useState('');
-    const [pwd, setPwd] = useState('');
+    const [username, setUserName] = useState('');
+    const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
 
     useEffect(() => {
@@ -31,7 +31,7 @@ const Login = () => {
 
     useEffect(() => {
         setErrMsg('');
-    }, [user, pwd])
+    }, [username, password])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -39,21 +39,25 @@ const Login = () => {
         try {
             
             const response = await axios.post<LoginResponse>(LOGIN_URL,
-                JSON.stringify({ user, pwd }),
+                JSON.stringify({ username, password }),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
                 }
             );
-            console.log(JSON.stringify(response?.data));
-            //console.log(JSON.stringify(response));
-            if (!response?.data?.user || !response?.data?.accessToken) {
+
+            if (!response?.data?.username || !response?.data?.token) {
+                console.log('Login Failed');
                 throw new Error('Login Failed');
             }
-            const accessToken = response?.data?.accessToken;
-            setAuth({ user, pwd, accessToken });
-            setUser('');
-            setPwd('');
+
+            console.log('Login Success');
+
+            const token = response?.data?.token;
+            setAuth({ username, password, token });
+            setUserName('');
+            setPassword('');
+            console.log('Navigating to:', from);
             navigate(from, { replace: true });
         } catch (err) {
             if (!err?.response) {
@@ -80,8 +84,8 @@ const Login = () => {
                     id="username"
                     ref={userRef}
                     autoComplete="off"
-                    onChange={(e) => setUser(e.target.value)}
-                    value={user}
+                    onChange={(e) => setUserName(e.target.value)}
+                    value={username}
                     required
                 />
 
@@ -89,8 +93,8 @@ const Login = () => {
                 <input
                     type="password"
                     id="password"
-                    onChange={(e) => setPwd(e.target.value)}
-                    value={pwd}
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
                     required
                 />
                 <button>Logar</button>

@@ -3,24 +3,19 @@ import Login from './components/Login.tsx';
 import Home from './components/Home.tsx';
 import Layout from './components/Laayout.tsx';
 import AuthRequirer from './components/AuthRequirer.tsx';
-
-import { Routes, Route } from 'react-router-dom';
-
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 function App() {
-
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        {/* public routes */}
+        <Route index element={<Navigate to="login" replace />} />
+
         <Route path="login" element={<Login />} />
 
-
-        {/* protected routes */}
-        <Route element={<AuthRequirer/>}>
-          <Route path="/" element={<Home />} />
+        <Route element={<AuthRequirer />}>
+          <Route path="home" element={<Home />} />
         </Route>
-
       </Route>
     </Routes>
   );
