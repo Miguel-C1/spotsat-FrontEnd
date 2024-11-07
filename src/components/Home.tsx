@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-draw/dist/leaflet.draw.css";
+import "../styles/home.css"
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/ProviderAuth.tsx";
 import MapWithDrawControl from "./MapwithDrawControl.tsx";
@@ -25,15 +26,13 @@ const Home = () => {
     };
 
     return (
-        <section>
-            <h1>Home</h1>
-            <p>Você está Logado!</p>
-            <MapContainer center={position} zoom={13} scrollWheelZoom={false} style={{ height: "500px", width: "100%" }}>
+        <section className="section-container">
+            <MapContainer className="map-container" center={position} zoom={13} scrollWheelZoom={false}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                <MapWithDrawControl />
+                <MapWithDrawControl url="/polygons/" />
             </MapContainer>
 
             <div>

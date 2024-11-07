@@ -1,34 +1,114 @@
+/* home.css */
 
-
-.map-container {
-  position: relative;
-  width: 100%;
-  height: 60vh; 
-  max-height: 500px;
-  margin-bottom: 20px;
+/* Estiliza a seção principal que contém o mapa e o painel lateral */
+.section-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    gap: 20px;
 }
 
-  section {
-    padding: 20px;
-    text-align: center;
-  }
-  
-  button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
-  .flexGrow {
+/* Estiliza o contêiner do mapa */
+.map-container {
+    width: 100%;
+    height: 80vh; /* Ajusta a altura do mapa */
+    border: 2px solid #ddd; /* Bordas sutis ao redor do mapa */
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Estiliza o contêiner dos inputs e botões */
+.input-container {
     display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilização para os labels e inputs */
+.input-container label {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.input-container input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* Estilo para o botão de enviar GeoJSON */
+.input-container {
+  position: absolute; /* Para garantir que flutue sobre o mapa */
+  top: 20px; /* Ajuste para posicionar onde preferir */
+  right:20px; /* Ajuste para posicionar onde preferir */
+  padding: 15px;
+  background-color: rgba(255, 255, 255, 0.8); /* Fundo com transparência */
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000; /* Certifique-se de que fique acima do mapa */
+}
+.input-container button {
+    background-color: #0fc77a;
+
+}
+
+.input-container button:hover {
+  background-color: #206d4d;
+}
+
+/* Estilo para os botões de navegação e logout */
+.section-container > div > button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.section-container > div > button:first-child {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.section-container > div > button:first-child:hover {
+    background-color: #c82333;
+}
+
+.section-container > div > button:last-child {
+    background-color: #17a2b8;
+    color: #fff;
+}
+
+.section-container > div > button:last-child:hover {
+    background-color: #138496;
+}
+
+/* Estilo responsivo para telas menores */
+@media (max-width: 768px) {
+    .section-container {
+        padding: 10px;
+    }
+
+    .map-container {
+        height: 60vh;
+    }
+
+    .input-container {
+        width: 100%;
+        max-width: 100%;
+    }
+}
