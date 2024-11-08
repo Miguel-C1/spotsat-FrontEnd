@@ -10,8 +10,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import proj4 from "proj4";
 import * as L from "leaflet";
 import "proj4leaflet";
-import MapWithDrawControlEdit from "./MapwithDrawControlEdit.jsx";
-
+import PointsOfInterestMap from "./PointsOfInterestMap.jsx";
 
 L.Icon.Default.mergeOptions({
     iconRetinaUrl:
@@ -25,7 +24,7 @@ L.Icon.Default.mergeOptions({
 proj4.defs("EPSG:5880", "+proj=poly +lat_0=0 +lon_0=-54 +x_0=5000000 +y_0=10000000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs");
 
 
-const EditorPolygonPage = () => {
+const PointsOfInterestPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -34,13 +33,6 @@ const EditorPolygonPage = () => {
     const [polygon, setPolygon] = useState<PolygonType | undefined>(undefined);
     const [polygonCoordinates, setPolygonCoordinates] = useState<LatLngExpression[][] | undefined>(undefined);
     const [isLoading, setIsLoading] = useState(true);
-
-    const handlePolygonClick = (polygon: PolygonType | undefined) => {
-        if (polygon) {
-            // Exibir detalhes do polígono
-            alert(`Detalhes do polígono: ${polygon.name}`);
-        }
-    };
 
     const convertCoordinates = (coordinates) => {
         return coordinates.map((point) => {
@@ -62,27 +54,6 @@ const EditorPolygonPage = () => {
             const coordinates: LatLngExpression[][] = data.geometry.coordinates.map((ring: number[][]) =>
                 ring.map((coord: number[]) => [coord[1], coord[0]] as LatLngExpression)
             );
-
-            const test = convertCoordinates(data.geometry.coordinates[0]);
-
-            console.log(coordinates)
-
-            const geojson = {
-                type: "FeatureCollection",
-                features: [
-                    {
-                        type: "Feature",
-                        properties: {
-                            name: data.properties.name,
-                            description: data.properties.description,
-                        },
-                        geometry: {
-                            type: "Polygon",
-                            coordinates: data.geometry.coordinates,
-                        },
-                    },
-                ],
-            }
 
 
             setPolygon(data);
@@ -108,15 +79,8 @@ const EditorPolygonPage = () => {
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    {polygonCoordinates && (
-                        <Polygon
-                            key={1}
-                            positions={polygonCoordinates}
-                            eventHandlers={{ click: () => handlePolygonClick(polygon) }}
-                        />
-                    )}
-
-                    <MapWithDrawControlEdit url={`/polygons/${id}`} polygon={polygon} />
+                
+                    <PointsOfInterestMap url={`/polygons/${id}/interests`} />
                 </MapContainer>
             )}
              <div>
@@ -126,4 +90,4 @@ const EditorPolygonPage = () => {
     );
 };
 
-export default EditorPolygonPage;
+export default PointsOfInterestPage;

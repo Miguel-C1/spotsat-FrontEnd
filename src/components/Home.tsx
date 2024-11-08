@@ -40,6 +40,9 @@ const Home = () => {
     const goToAnotherRoute = () => {
         navigate("/search");
     };
+    const goToSearchByRadius = () => {
+        navigate("/searchradius");
+    };
 
 
     return (
@@ -61,6 +64,7 @@ const Home = () => {
             <div>
                 <button onClick={logout}>Sign Out</button>
                 <button onClick={goToAnotherRoute}>Buscar Polígonos</button>
+                <button onClick={goToSearchByRadius}>Buscar Interesse Por Raio</button>
             </div>
         </section>
     );

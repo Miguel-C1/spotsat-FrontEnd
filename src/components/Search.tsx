@@ -51,7 +51,7 @@ const Search = () => {
     };
 
     const handlePointsOfInterest = (id: string) => {
-        navigate(`/polygons/${id}/interests`);
+        navigate(`/pointsinterests/${id}`);
     };
 
     // Filtra os polígonos com base no termo de busca

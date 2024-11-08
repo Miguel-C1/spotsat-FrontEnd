@@ -118,6 +118,26 @@ const MapWithDrawControlEdit = ({ url, polygon }) => {
                 const updatedGeoJson = featureGroup.toGeoJSON();
                 setGeojson(updatedGeoJson);
             });
+            layer.on("mouseover", (e) => {
+                const popup = L.popup()
+                    .setLatLng(e.latlng)
+                    .setContent(`<strong>${polygon.properties.name}</strong><br>${polygon.properties.description}`)
+                    .openOn(map);
+
+                e.target.setStyle({
+                    color: "#FF5733", // Cor de destaque ao passar o mouse
+                    weight: 5,
+                });
+            });
+
+            // Adiciona evento de mouseout para esconder o popup e restaurar estilo
+            layer.on("mouseout", (e) => {
+                map.closePopup();
+                e.target.setStyle({
+                    color: "#ff0000", // Restaura a cor original
+                    weight: 4,
+                });
+            });
         });
     
         map.addLayer(featureGroup);

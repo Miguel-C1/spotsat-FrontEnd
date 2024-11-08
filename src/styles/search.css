@@ -132,9 +132,38 @@ button:nth-child(3):active {
 }
 
 /* Responsive Styles */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
+    /* Ajustes para telas de tablets */
+    body {
+        padding: 10px;
+    }
+
     table {
-        font-size: 0.9rem;
+        font-size: 1rem;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+
+    button {
+        font-size: 1rem;
+        padding: 8px 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Ajustes para telas de smartphones maiores */
+    section {
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 1.75rem;
+    }
+
+    table {
+        font-size: 0.95rem;
     }
 
     th, td {
@@ -148,6 +177,7 @@ button:nth-child(3):active {
 }
 
 @media (max-width: 480px) {
+    /* Ajustes para smartphones pequenos */
     section {
         padding: 10px;
     }
@@ -160,9 +190,28 @@ button:nth-child(3):active {
         font-size: 0.85rem;
     }
 
+    th, td {
+        padding: 8px;
+    }
+
     button {
         font-size: 0.8rem;
         padding: 5px 8px;
     }
-}
 
+    /* Ajustar o botão de pesquisa e voltar para centralização em telas pequenas */
+    div {
+        margin-bottom: 15px;
+    }
+
+    button {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    /* Colocar os botões de ação em uma única linha, adaptando para telas pequenas */
+    td button {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+}

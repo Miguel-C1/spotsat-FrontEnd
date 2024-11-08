@@ -16,8 +16,6 @@ const MapWithDrawControl: React.FC<MapWithDrawControlProps> = ({ geoJsonUrl, url
     const [geojson, setGeojson] = useState<GeoJSON.FeatureCollection | null>(null);
     const featureGroupRef = useRef(new L.FeatureGroup());
     const api = useApiPrivate();
-
-    // Estado para os inputs
     const [polygonName, setPolygonName] = useState("");
     const [polygonDescription, setPolygonDescription] = useState("");
 
@@ -50,23 +48,20 @@ const MapWithDrawControl: React.FC<MapWithDrawControlProps> = ({ geoJsonUrl, url
                         weight: 4,
                     }
                 },
+                circlemarker: false,
+                marker: false,
                 polyline: false,
-                circle: false,
             },
         });
         map.addControl(drawControl);
 
-        // Limitar a um único polígono e capturar o evento `draw:created`
         map.on("draw:created", (event) => {
             const layer = (event as L.DrawEvents.Created).layer;
 
-            // Remove o polígono anterior, se existir
             featureGroup.clearLayers();
 
-            // Adiciona o novo polígono
             featureGroup.addLayer(layer);
 
-            // Converte o `featureGroup` para GeoJSON e armazena no estado
             const updatedGeojson = featureGroup.toGeoJSON() as GeoJSON.FeatureCollection;
             setGeojson(updatedGeojson);
         });
@@ -77,10 +72,8 @@ const MapWithDrawControl: React.FC<MapWithDrawControlProps> = ({ geoJsonUrl, url
         };
     }, [map, geoJsonUrl]);
 
-    // Função para lidar com o envio do GeoJSON
     const handleSendGeoJson = () => {
         if (url && geojson) {
-            // Adiciona os dados do formulário às propriedades do primeiro (e único) polígono
             const updatedGeojson = {
                 ...geojson,
                 features: geojson.features.map((feature) => ({
