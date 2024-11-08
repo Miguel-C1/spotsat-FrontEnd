@@ -1,8 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
-import useAuth from '../hooks/hookAuthUser.ts';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import useAuth  from '../hooks/hookAuthUser.ts'; // Add this line
+import { Section, Title, ErrorMessage, Offscreen, Form, Label, Input, Button } from '../styles/login.tsx';
+import axios from '../axios/api.ts'
 
-import axios from '../axios/axios.ts';
 const LOGIN_URL = '/login';
 
 interface LoginResponse {
@@ -71,15 +72,13 @@ const Login = () => {
             }
         }
     }
-
     return (
+        <Section>
+            <Title>Sign In</Title>
 
-        <section>
-            <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-            <h1>Sign In</h1>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="username">Login:</label>
-                <input
+            <Form onSubmit={handleSubmit}>
+                <Label htmlFor="username">Login:</Label>
+                <Input
                     type="text"
                     id="username"
                     ref={userRef}
@@ -89,19 +88,18 @@ const Login = () => {
                     required
                 />
 
-                <label htmlFor="password">Senha:</label>
-                <input
+                <Label htmlFor="password">Senha:</Label>
+                <Input
                     type="password"
                     id="password"
                     onChange={(e) => setPassword(e.target.value)}
                     value={password}
                     required
                 />
-                <button>Logar</button>
-            </form>
-        </section>
+                <Button type="submit">Logar</Button>
+            </Form>
+        </Section>
+    );
+};
 
-    )
-}
-
-export default Login
+export default Login;

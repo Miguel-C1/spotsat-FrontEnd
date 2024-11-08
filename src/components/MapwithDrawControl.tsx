@@ -4,8 +4,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-draw";
 import "leaflet-draw/dist/leaflet.draw.css";
-import "../styles/home.css";
-import axios from '../axios/axios.ts';
+import useApiPrivate from "../hooks/hookApiPrivate.ts";
 
 interface MapWithDrawControlProps {
     geoJsonUrl?: string;
@@ -16,6 +15,7 @@ const MapWithDrawControl: React.FC<MapWithDrawControlProps> = ({ geoJsonUrl, url
     const map = useMap();
     const [geojson, setGeojson] = useState<GeoJSON.FeatureCollection | null>(null);
     const featureGroupRef = useRef(new L.FeatureGroup());
+    const api = useApiPrivate();
 
     // Estado para os inputs
     const [polygonName, setPolygonName] = useState("");
@@ -25,7 +25,7 @@ const MapWithDrawControl: React.FC<MapWithDrawControlProps> = ({ geoJsonUrl, url
         const featureGroup = featureGroupRef.current;
 
         if (geoJsonUrl) {
-            axios.get(geoJsonUrl)
+            api.get(geoJsonUrl)
                 .then((response) => {
                     if (response.data) {
                         const geoJsonLayer = L.geoJSON(response.data as GeoJSON.GeoJsonObject);
@@ -93,7 +93,7 @@ const MapWithDrawControl: React.FC<MapWithDrawControlProps> = ({ geoJsonUrl, url
                 })),
             };
 
-            axios.post(url, updatedGeojson)
+            api.post(url, updatedGeojson)
                 .then((response) => {
                     console.log("Dados enviados com sucesso:", response.data);
                     // Limpa o mapa e o estado após o envio

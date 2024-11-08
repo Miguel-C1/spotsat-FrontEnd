@@ -3,6 +3,8 @@ import Login from './components/Login.tsx';
 import Home from './components/Home.tsx';
 import Layout from './components/Laayout.tsx';
 import AuthRequirer from './components/AuthRequirer.tsx';
+import Search from './components/Search.tsx';
+import EditPolygonPage from './components/EditPolygonPage.tsx';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 function App() {
@@ -15,6 +17,8 @@ function App() {
 
         <Route element={<AuthRequirer />}>
           <Route path="home" element={<Home />} />
+          <Route path="search" element={<Search />} />
+          <Route path="edit/:id" element={<EditPolygonPage />} />
         </Route>
       </Route>
     </Routes>

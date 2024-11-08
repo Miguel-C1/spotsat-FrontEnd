@@ -8,84 +8,107 @@
     justify-content: center;
     padding: 20px;
     gap: 20px;
+    background-color: #f4f7fb; /* Cor de fundo suave para toda a página */
+    min-height: 100vh;
 }
 
 /* Estiliza o contêiner do mapa */
 .map-container {
     width: 100%;
     height: 80vh; /* Ajusta a altura do mapa */
-    border: 2px solid #ddd; /* Bordas sutis ao redor do mapa */
+    border: none;
     border-radius: 8px;
-    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Estiliza o contêiner dos inputs e botões */
 .input-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 15px;
-    background-color: #f5f5f5;
-    border-radius: 8px;
-    width: 100%;
-    max-width: 400px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    position: absolute; /* Para garantir que flutue sobre o mapa */
+    top: 20px; /* Ajuste para posicionar onde preferir */
+    right: 20px; /* Ajuste para posicionar onde preferir */
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9); /* Fundo com leve transparência */
+    border-radius: 12px;
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.15);
+    z-index: 1000; /* Certifique-se de que fique acima do mapa */
+    width: 300px;
+    max-width: 100%;
 }
 
 /* Estilização para os labels e inputs */
 .input-container label {
     font-weight: bold;
     color: #333;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    font-size: 16px;
 }
 
 .input-container input[type="text"] {
     width: 100%;
-    padding: 10px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
     font-size: 14px;
     box-sizing: border-box;
+    margin-bottom: 12px; /* Espaçamento entre os inputs */
+    transition: border-color 0.3s ease;
+}
+
+/* Foco no campo de input */
+.input-container input[type="text"]:focus {
+    border-color: #007bff;
+    outline: none;
 }
 
 /* Estilo para o botão de enviar GeoJSON */
-.input-container {
-  position: absolute; /* Para garantir que flutue sobre o mapa */
-  top: 20px; /* Ajuste para posicionar onde preferir */
-  right:20px; /* Ajuste para posicionar onde preferir */
-  padding: 15px;
-  background-color: rgba(255, 255, 255, 0.8); /* Fundo com transparência */
-  border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  z-index: 1000; /* Certifique-se de que fique acima do mapa */
-}
 .input-container button {
+    width: 100%;
+    padding: 12px;
     background-color: #0fc77a;
-
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .input-container button:hover {
-  background-color: #206d4d;
+    background-color: #206d4d;
+    transform: translateY(-2px); /* Leve elevação no hover */
+}
+
+.input-container button:active {
+    background-color: #155f39;
+    transform: translateY(1px); /* Efeito de clique */
 }
 
 /* Estilo para os botões de navegação e logout */
 .section-container > div > button {
     margin-top: 10px;
-    padding: 10px 15px;
-    font-size: 14px;
+    padding: 12px 20px;
+    font-size: 16px;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s ease;
+    width: 100%;
 }
 
 .section-container > div > button:first-child {
     background-color: #dc3545;
     color: #fff;
+    margin-bottom: 10px; /* Espaço entre os botões */
 }
 
 .section-container > div > button:first-child:hover {
     background-color: #c82333;
+    transform: translateY(-2px); /* Elevação no hover */
+}
+
+.section-container > div > button:first-child:active {
+    background-color: #a71d2a;
+    transform: translateY(1px); /* Efeito de clique */
 }
 
 .section-container > div > button:last-child {
@@ -95,20 +118,57 @@
 
 .section-container > div > button:last-child:hover {
     background-color: #138496;
+    transform: translateY(-2px); /* Elevação no hover */
+}
+
+.section-container > div > button:last-child:active {
+    background-color: #0e6e7f;
+    transform: translateY(1px); /* Efeito de clique */
 }
 
 /* Estilo responsivo para telas menores */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .section-container {
-        padding: 10px;
+        padding: 20px 10px;
     }
 
+    .map-container {
+        height: 70vh;
+    }
+
+    .input-container {
+        width: 100%;
+        max-width: 350px; /* Ajuste para telas médias */
+    }
+}
+
+@media (max-width: 768px) {
     .map-container {
         height: 60vh;
     }
 
     .input-container {
         width: 100%;
-        max-width: 100%;
+        max-width: 90%; /* Ajuste para telas pequenas */
+    }
+
+    .section-container > div > button {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .map-container {
+        height: 50vh;
+    }
+
+    .input-container {
+        width: 100%;
+        max-width: 100%; /* Ajuste para telas pequenas e muito pequenas */
+    }
+
+    .section-container > div > button {
+        font-size: 14px;
+        padding: 10px 15px;
     }
 }

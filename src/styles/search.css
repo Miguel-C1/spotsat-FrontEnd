@@ -1,0 +1,168 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Input de Pesquisa */
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 20px; /* Espaço abaixo do input */
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus {
+    border-color: #4CAF50; /* Cor de borda ao focar */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3); /* Sombra suave ao focar */
+}
+
+input[type="text"]::placeholder {
+    color: #888; /* Cor do texto do placeholder */
+    font-style: italic;
+}
+
+/* Estilo para o container do input */
+div {
+    margin-bottom: 20px;
+}
+
+body {
+    background-color: #f4f6f9;
+    color: #333;
+    padding: 20px;
+}
+
+/* Section Title */
+section h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+thead {
+    background-color: #3a4d63;
+    color: white;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    font-size: 1rem;
+}
+
+th {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+td {
+    border-bottom: 1px solid #e2e2e2;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+/* Action Button Styling */
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    margin: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+button:active {
+    background-color: #397d33;
+}
+
+/* Delete Button Styling */
+button:nth-child(2) {
+    background-color: #f44336;
+}
+
+button:nth-child(2):hover {
+    background-color: #d32f2f;
+}
+
+button:nth-child(2):active {
+    background-color: #c62828;
+}
+
+/* Points of Interest Button */
+button:nth-child(3) {
+    background-color: #2196F3;
+}
+
+button:nth-child(3):hover {
+    background-color: #1976D2;
+}
+
+button:nth-child(3):active {
+    background-color: #1565C0;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    table {
+        font-size: 0.9rem;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+
+    button {
+        font-size: 0.9rem;
+        padding: 6px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    section {
+        padding: 10px;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    table {
+        font-size: 0.85rem;
+    }
+
+    button {
+        font-size: 0.8rem;
+        padding: 5px 8px;
+    }
+}
+
