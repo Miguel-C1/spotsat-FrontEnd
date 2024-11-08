@@ -10,11 +10,21 @@ import proj4 from "proj4";
 import "proj4leaflet";
 import MapWithDrawControl from "./MapwithDrawControl.tsx";
 
+L.Icon.Default.mergeOptions({
+    iconRetinaUrl:
+      "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-icon.png",
+    iconUrl:
+      "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-icon.png",
+    shadowUrl:
+      "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-shadow.png",
+  });
+
 proj4.defs("EPSG:5880","+proj=poly +lat_0=0 +lon_0=-54 +x_0=5000000 +y_0=10000000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs");
 
 const Home = () => {
     const position: [number, number] = [-14.2350, -51.9253]; // Centralizando no Brasil
     const authContext = useContext(AuthContext);
+
 
     if (!authContext) {
         throw new Error("AuthContext must be used within an AuthProvider");

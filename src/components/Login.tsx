@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import useAuth  from '../hooks/hookAuthUser.ts'; // Add this line
-import { Section, Title, ErrorMessage, Offscreen, Form, Label, Input, Button } from '../styles/login.tsx';
+import { Section, Title, Form, Label, Input, Button } from '../styles/login.tsx';
 import axios from '../axios/api.ts'
 
 const LOGIN_URL = '/login';
