@@ -25,8 +25,13 @@ const PointsOfInterestMapByRadius = ({ polygons }) => {
     }, [polygons]);
 
     useEffect(() => {
+        map.eachLayer((layer) => {
+            if (layer instanceof L.Polygon) {
+                map.removeLayer(layer);
+            }
+        });
         if (!map || pointsOfInterest.length === 0) return;
-
+        
         pointsOfInterest.forEach((point) => {
             console.log(point)
             const { coordinates } = point.geometry;
@@ -60,7 +65,7 @@ const PointsOfInterestMapByRadius = ({ polygons }) => {
                 });
             });
         });
-    }, [pointsOfInterest, map]);
+    }, [pointsOfInterest]);
 
     return null;
 };

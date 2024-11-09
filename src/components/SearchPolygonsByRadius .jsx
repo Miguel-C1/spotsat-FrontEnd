@@ -101,11 +101,24 @@ const SearchPolygonsByRadius = () => {
                 <h3>Resultados:</h3>
                 {polygons.length > 0 ? (
                     polygons.map((polygon) => (
-                        <div key={polygon.id} className="polygon-item">
-                            <h4>{polygon.name}</h4>
-                            <p>ID: {polygon.id}</p>
-                            <p>Descrição: {polygon.geometry.description || "Sem descrição"}</p>
-                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Descrição</th>
+                                    <th>Coordenadas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr key={polygon.id}>
+                                    <td>{polygon.properties.name}</td>
+                                    <td>{polygon.properties.description}</td>
+                                    <td>{JSON.stringify(polygon.geometry.coordinates)}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
                     ))
                 ) : (
                     <p>Nenhum polígono encontrado no raio especificado.</p>
