@@ -29,22 +29,37 @@ const MapWithDrawControlEdit = ({ url, polygon }) => {
 
     useEffect(() => {
         if (!map) return;
-
+        let drawControl
         const featureGroup = featureGroupRef.current;
-
-        const drawControl = new L.Control.Draw({
-            edit: {
-                featureGroup: featureGroupRef.current,
-            },
-            draw: {
-                circlemarker: false,    
-                circle: false,
-                polyline: false,
-                polygon: true,
-                marker: polygon.geometry?.type === "Point", 
-            },
-        });
-
+        if(polygon.geometry?.type === "Point"){
+            drawControl = new L.Control.Draw({
+                edit: {
+                    featureGroup: featureGroupRef.current,
+                },
+                draw: {
+                    circlemarker: false,  
+                    rectangle: false,
+                    circle: false,
+                    polyline: false,
+                    polygon: false,
+                    marker: polygon.geometry?.type === "Point", 
+                },
+            });
+        } else {
+            drawControl = new L.Control.Draw({
+                edit: {
+                    featureGroup: featureGroupRef.current,
+                },
+                draw: {
+                    circlemarker: false,  
+                    circle: false,
+                    polyline: false,
+                    polygon: true,
+                    marker: false, 
+                },
+            });
+        }
+    
         map.addControl(drawControl);
 
         map.on("draw:created", (e) => {
