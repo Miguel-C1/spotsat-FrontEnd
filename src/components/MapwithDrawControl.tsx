@@ -49,7 +49,7 @@ const MapWithDrawControl: React.FC<MapWithDrawControlProps> = ({ geoJsonUrl, url
                     }
                 },
                 circlemarker: false,
-                marker: false,
+                circle: false,
                 polyline: false,
             },
         });

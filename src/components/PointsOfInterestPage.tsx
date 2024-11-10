@@ -30,16 +30,7 @@ const PointsOfInterestPage = () => {
 
     const api = useApiPrivate();
     const [position, setPosition] = useState<[number, number]>([-14.2350, -51.9253]); // Posição inicial do mapa
-    const [polygon, setPolygon] = useState<PolygonType | undefined>(undefined);
-    const [polygonCoordinates, setPolygonCoordinates] = useState<LatLngExpression[][] | undefined>(undefined);
     const [isLoading, setIsLoading] = useState(true);
-
-    const convertCoordinates = (coordinates) => {
-        return coordinates.map((point) => {
-            const [x, y] = proj4("EPSG:5880", "EPSG:3857", point);
-            return [y, x]; // Leaflet espera [latitude, longitude]
-        });
-    };
 
     const goToAnotherRoute = () => {
         navigate("/search");
@@ -48,16 +39,9 @@ const PointsOfInterestPage = () => {
     const fetchPolygonData = async () => {
         setIsLoading(true); // Começa o carregamento
         try {
-            const response = await api.get<PolygonType>(`/polygons/${id}`);
-            const data = response.data;
+            api.get<PolygonType>(`/polygons/${id}`);
+       
 
-            const coordinates: LatLngExpression[][] = data.geometry.coordinates.map((ring: number[][]) =>
-                ring.map((coord: number[]) => [coord[1], coord[0]] as LatLngExpression)
-            );
-
-
-            setPolygon(data);
-            setPolygonCoordinates(coordinates);
         } catch (error) {
             console.error('Erro ao carregar os dados do polígono:', error);
         } finally {

@@ -37,12 +37,11 @@ const MapWithDrawControlEdit = ({ url, polygon }) => {
                 featureGroup: featureGroupRef.current,
             },
             draw: {
-                marker: false,
                 circlemarker: false,    
-                polyline: false,
                 circle: false,
-                rectangle: false,
-                polygon: true, // Permite desenhar apenas polígonos
+                polyline: false,
+                polygon: true,
+                marker: polygon.geometry?.type === "Point", 
             },
         });
 
@@ -51,98 +50,112 @@ const MapWithDrawControlEdit = ({ url, polygon }) => {
         map.on("draw:created", (e) => {
             const layer = e.layer;
 
-            // Limpa qualquer polígono existente antes de adicionar um novo
             featureGroup.clearLayers();
             featureGroupRef.current.addLayer(layer);
 
             const newGeoJson = featureGroupRef.current.toGeoJSON();
             setGeojson(newGeoJson);
 
-            // Ativar edição ao clicar no polígono
             layer.on("click", () => {
-                layer.editing.enable();
+                if (layer.editing) layer.editing.enable();
             });
         });
 
         return () => {
-            map.removeControl(drawControl); 
+            map.removeControl(drawControl);
         };
     }, [map]);
 
     useEffect(() => {
         if (!polygon) return;
+
+        console.log("Desenhando geometria:", polygon);
     
         const featureGroup = featureGroupRef.current;
-        const geojson = {
-            "type": "FeatureCollection",
-            "features": [
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "name": polygon.properties.name,
-                        "description": polygon.properties.description,
-                    },
-                    "geometry": {
-                        "type": "Polygon",
-                        "coordinates": [
-                            convertToLatLng(polygon.geometry.coordinates[0])
-                        ],
-                    },
-                },
-            ],
-        };
-    
-        // Limpar as camadas anteriores
-        featureGroup.clearLayers();
-    
-        // Criar a camada GeoJSON
-        const layer = L.geoJSON(geojson, {
-            style: {
-                color: "#ff0000",
-                weight: 4,
-                fillColor: "#ffcccc",
-                fillOpacity: 0.5,
-            },
-        });
-    
-        layer.eachLayer((layer) => {
-            featureGroup.addLayer(layer);
-    
-            layer.on("click", () => {
-                if (layer.editing) {
-                    layer.editing.enable();
-                }
-            });
-    
-            layer.on("edit", () => {
-                const updatedGeoJson = featureGroup.toGeoJSON();
-                setGeojson(updatedGeoJson);
-            });
-            layer.on("mouseover", (e) => {
-                const popup = L.popup()
-                    .setLatLng(e.latlng)
-                    .setContent(`<strong>${polygon.properties.name}</strong><br>${polygon.properties.description}`)
-                    .openOn(map);
 
-                e.target.setStyle({
-                    color: "#FF5733", // Cor de destaque ao passar o mouse
-                    weight: 5,
-                });
-            });
-
-            // Adiciona evento de mouseout para esconder o popup e restaurar estilo
-            layer.on("mouseout", (e) => {
-                map.closePopup();
-                e.target.setStyle({
-                    color: "#ff0000", // Restaura a cor original
+        if (polygon.geometry.type === "Polygon") {
+            const geojson = {
+                "type": "FeatureCollection",
+                "features": [
+                    {
+                        "type": "Feature",
+                        "properties": {
+                            "name": polygon.properties.name,
+                            "description": polygon.properties.description,
+                        },
+                        "geometry": {
+                            "type": "Polygon",
+                            "coordinates": [
+                                convertToLatLng(polygon.geometry.coordinates[0])
+                            ],
+                        },
+                    },
+                ],
+            };
+            
+            featureGroup.clearLayers();
+            
+            const layer = L.geoJSON(geojson, {
+                style: {
+                    color: "#ff0000",
                     weight: 4,
+                    fillColor: "#ffcccc",
+                    fillOpacity: 0.5,
+                },
+            });
+
+            layer.eachLayer((layer) => {
+                featureGroup.addLayer(layer);
+                layer.on("click", () => {
+                    if (layer.editing) layer.editing.enable();
+                });
+                layer.on("edit", () => {
+                    const updatedGeoJson = featureGroup.toGeoJSON();
+                    setGeojson(updatedGeoJson);
+                });
+                layer.on("mouseover", (e) => {
+                    const popup = L.popup()
+                        .setLatLng(e.latlng)
+                        .setContent(`<strong>${polygon.properties.name}</strong><br>${polygon.properties.description}`)
+                        .openOn(map);
+                    e.target.setStyle({ color: "#FF5733", weight: 5 });
+                });
+                layer.on("mouseout", (e) => {
+                    map.closePopup();
+                    e.target.setStyle({ color: "#ff0000", weight: 4 });
                 });
             });
-        });
+
+            map.addLayer(featureGroup);
+            setGeojson(geojson);
+        } else if (polygon.geometry.type === "Point") {
+            const [x, y] = polygon.geometry.coordinates;
+            const [lon, lat] = proj4("EPSG:5880", "EPSG:4326", [x, y]);
+            const marker = L.marker([lat, lon]).bindPopup(
+                `<strong>${polygon.properties.name}</strong><br>${polygon.properties.description}`
+            );
+            
+            featureGroup.clearLayers();
+            featureGroup.addLayer(marker);
+            map.addLayer(featureGroup);
+            setGeojson({
+                "type": "FeatureCollection",
+                "features": [
+                    {
+                        "type": "Feature",
+                        "properties": {
+                            "name": polygon.properties.name,
+                            "description": polygon.properties.description,
+                        },
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [x, y],
+                        },
+                    },
+                ],
+            });
+        }
     
-        map.addLayer(featureGroup);
-    
-        setGeojson(geojson);
         setPolygonName(polygon.properties.name);
         setPolygonDescription(polygon.properties.description);
     }, [polygon, map]);

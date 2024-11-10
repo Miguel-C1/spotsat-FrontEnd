@@ -8,13 +8,13 @@ type CRS = {
   export type Geometry = {
     crs: CRS;
     type: "Polygon";
-    coordinates: number[][][]; // Representa as coordenadas do polígono
+    coordinates: number[][][]; 
   };
   
   type PointGeometry = {
     crs: CRS;
     type: "Point";
-    coordinates: [number, number]; // Representa as coordenadas do ponto central
+    coordinates: [number, number];
   };
   
   type Properties = {
@@ -29,6 +29,15 @@ type CRS = {
     properties: Properties;
     centroid: PointGeometry;
     area_hectares: number;
+    createdAt: string;
+    updatedAt: string;
+  };
+
+  export type PointType = {
+    id: number;
+    geometry: PointGeometry;
+    name: string;
+    properties: Properties;
     createdAt: string;
     updatedAt: string;
   };

@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Polygon } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-draw/dist/leaflet.draw.css";
-import { LatLngExpression } from 'leaflet';
+import { LatLngExpression, LatLng } from 'leaflet';
 import "../styles/home.css";
 import useApiPrivate from "../hooks/hookApiPrivate.ts";
-import { PolygonType } from "../types/polygon.ts";
+import { PolygonType, PointType } from "../types/polygon.ts";
 import { useParams, useNavigate } from "react-router-dom";
 import proj4 from "proj4";
 import * as L from "leaflet";
@@ -31,66 +31,41 @@ const EditorPolygonPage = () => {
 
     const api = useApiPrivate();
     const [position, setPosition] = useState<[number, number]>([-14.2350, -51.9253]); // Posição inicial do mapa
-    const [polygon, setPolygon] = useState<PolygonType | undefined>(undefined);
-    const [polygonCoordinates, setPolygonCoordinates] = useState<LatLngExpression[][] | undefined>(undefined);
+    const [polygon, setPolygon] = useState<PolygonType | undefined | PointType >(undefined);
     const [isLoading, setIsLoading] = useState(true);
 
-    const handlePolygonClick = (polygon: PolygonType | undefined) => {
+    const handlePolygonClick = (polygon: PolygonType | undefined | PointType) => {
         if (polygon) {
             // Exibir detalhes do polígono
             alert(`Detalhes do polígono: ${polygon.name}`);
         }
     };
 
-    const convertCoordinates = (coordinates) => {
-        return coordinates.map((point) => {
-            const [x, y] = proj4("EPSG:5880", "EPSG:3857", point);
-            return [y, x]; // Leaflet espera [latitude, longitude]
-        });
-    };
+ 
 
     const goToAnotherRoute = () => {
         navigate("/search");
     };
 
+    function convertToLatLng(coordinates) {
+        if (!Array.isArray(coordinates)) {
+            console.error("coordinates não é um array", coordinates);
+            return [];
+        }
+        return coordinates.map(coord => L.latLng(coord[1], coord[0]));
+    }
+
     const fetchPolygonData = async () => {
-        setIsLoading(true); // Começa o carregamento
+        setIsLoading(true);
         try {
             const response = await api.get<PolygonType>(`/polygons/${id}`);
             const data = response.data;
-
-            const coordinates: LatLngExpression[][] = data.geometry.coordinates.map((ring: number[][]) =>
-                ring.map((coord: number[]) => [coord[1], coord[0]] as LatLngExpression)
-            );
-
-            const test = convertCoordinates(data.geometry.coordinates[0]);
-
-            console.log(coordinates)
-
-            const geojson = {
-                type: "FeatureCollection",
-                features: [
-                    {
-                        type: "Feature",
-                        properties: {
-                            name: data.properties.name,
-                            description: data.properties.description,
-                        },
-                        geometry: {
-                            type: "Polygon",
-                            coordinates: data.geometry.coordinates,
-                        },
-                    },
-                ],
-            }
-
-
-            setPolygon(data);
-            setPolygonCoordinates(coordinates);
+            console.log(data);
+                setPolygon(data);
         } catch (error) {
-            console.error('Erro ao carregar os dados do polígono:', error);
+            console.error("Erro ao carregar os dados do polígono:", error);
         } finally {
-            setIsLoading(false); // Fim do carregamento
+            setIsLoading(false);
         }
     };
 
@@ -108,13 +83,6 @@ const EditorPolygonPage = () => {
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    {polygonCoordinates && (
-                        <Polygon
-                            key={1}
-                            positions={polygonCoordinates}
-                            eventHandlers={{ click: () => handlePolygonClick(polygon) }}
-                        />
-                    )}
 
                     <MapWithDrawControlEdit url={`/polygons/${id}`} polygon={polygon} />
                 </MapContainer>
