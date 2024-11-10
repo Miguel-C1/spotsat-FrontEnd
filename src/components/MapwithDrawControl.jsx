@@ -6,12 +6,7 @@ import "leaflet-draw";
 import "leaflet-draw/dist/leaflet.draw.css";
 import useApiPrivate from "../hooks/hookApiPrivate.ts";
 
-interface MapWithDrawControlProps {
-    geoJsonUrl?: string;
-    url?: string;
-}
-
-const MapWithDrawControl: React.FC<MapWithDrawControlProps> = ({ geoJsonUrl, url }) => {
+const MapWithDrawControl = ({ geoJsonUrl, url }) => {
     const map = useMap();
     const [geojson, setGeojson] = useState<GeoJSON.FeatureCollection | null>(null);
     const featureGroupRef = useRef(new L.FeatureGroup());
@@ -26,7 +21,7 @@ const MapWithDrawControl: React.FC<MapWithDrawControlProps> = ({ geoJsonUrl, url
             api.get(geoJsonUrl)
                 .then((response) => {
                     if (response.data) {
-                        const geoJsonLayer = L.geoJSON(response.data as GeoJSON.GeoJsonObject);
+                        const geoJsonLayer = L.geoJSON(response.data);
                         geoJsonLayer.addTo(featureGroup);
                     }
                 })
@@ -56,13 +51,13 @@ const MapWithDrawControl: React.FC<MapWithDrawControlProps> = ({ geoJsonUrl, url
         map.addControl(drawControl);
 
         map.on("draw:created", (event) => {
-            const layer = (event as L.DrawEvents.Created).layer;
+            const layer = (event).layer;
 
             featureGroup.clearLayers();
 
             featureGroup.addLayer(layer);
 
-            const updatedGeojson = featureGroup.toGeoJSON() as GeoJSON.FeatureCollection;
+            const updatedGeojson = featureGroup.toGeoJSON();
             setGeojson(updatedGeojson);
         });
 

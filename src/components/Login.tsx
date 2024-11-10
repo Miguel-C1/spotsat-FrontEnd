@@ -19,20 +19,15 @@ const Login = () => {
     const from = location.state?.from?.pathname || "/home";
 
     const userRef = useRef<HTMLInputElement>(null);
-    const errRef = useRef<HTMLParagraphElement>(null);
 
     const [username, setUserName] = useState('');
     const [password, setPassword] = useState('');
-    const [errMsg, setErrMsg] = useState('');
 
     useEffect(() => {
         if (userRef.current)
         userRef.current.focus();
     }, [])
 
-    useEffect(() => {
-        setErrMsg('');
-    }, [username, password])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -62,13 +57,7 @@ const Login = () => {
             navigate(from, { replace: true });
         } catch (err) {
             if (!err?.response) {
-                setErrMsg('No Server Response');
-            } else if (err.response?.status === 400) {
-                setErrMsg('Missing Username or Password');
-            } else if (err.response?.status === 401) {
-                setErrMsg('Unauthorized');
-            } else {
-                setErrMsg('Login Failed');
+                console.error('Network error:', err);
             }
         }
     }

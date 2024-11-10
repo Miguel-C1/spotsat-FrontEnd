@@ -3,19 +3,9 @@ import { useNavigate } from "react-router-dom";
 import useApiPrivate from "../hooks/hookApiPrivate.ts";
 import "../styles/search.css";
 
-interface Polygon {
-    id: string;
-    properties: {
-        name: string;
-        description: string;
-    };
-    geometry: {
-        coordinates: number[][]; // Estrutura da coordenada do polígono
-    };
-}
 
 const Search = () => {
-    const [polygons, setPolygons] = useState<Polygon[]>([]);
+    const [polygons, setPolygons] = useState([]);
     const [searchTerm, setSearchTerm] = useState<string>(''); // Estado para o termo de busca
     const navigate = useNavigate();
     const api = useApiPrivate();
@@ -24,7 +14,7 @@ const Search = () => {
         const fetchPolygons = async () => {
             try {
                 const response = await api.get('/polygons/');
-                setPolygons(response.data as Polygon[]);
+                setPolygons(response.data);
             } catch (error) {
                 console.error("Erro ao buscar os polígonos:", error);
             }
@@ -33,7 +23,7 @@ const Search = () => {
         fetchPolygons();
     }, []);
 
-    const handleEdit = (id: string) => {
+    const handleEdit = (id) => {
         navigate(`/edit/${id}`);
     };
 
@@ -41,7 +31,7 @@ const Search = () => {
         navigate("/home");
     };
 
-    const handleDelete = async (id: string) => {
+    const handleDelete = async (id) => {
         try {
             await api.delete(`/polygons/${id}`);
             setPolygons(polygons.filter(polygon => polygon.id !== id));
@@ -50,7 +40,7 @@ const Search = () => {
         }
     };
 
-    const handlePointsOfInterest = (id: string) => {
+    const handlePointsOfInterest = (id) => {
         navigate(`/pointsinterests/${id}`);
     };
 

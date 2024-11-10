@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { MapContainer, TileLayer, Polygon } from "react-leaflet";
+import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-draw/dist/leaflet.draw.css";
-import { LatLngExpression, LatLng } from 'leaflet';
 import "../styles/home.css";
 import useApiPrivate from "../hooks/hookApiPrivate.ts";
 import { PolygonType, PointType } from "../types/polygon.ts";
@@ -30,30 +29,16 @@ const EditorPolygonPage = () => {
     const navigate = useNavigate();
 
     const api = useApiPrivate();
-    const [position, setPosition] = useState<[number, number]>([-14.2350, -51.9253]); // Posição inicial do mapa
+    const [position] = useState<[number, number]>([-14.2350, -51.9253]); // Posição inicial do mapa
     const [polygon, setPolygon] = useState<PolygonType | undefined | PointType >(undefined);
     const [isLoading, setIsLoading] = useState(true);
 
-    const handlePolygonClick = (polygon: PolygonType | undefined | PointType) => {
-        if (polygon) {
-            // Exibir detalhes do polígono
-            alert(`Detalhes do polígono: ${polygon.name}`);
-        }
-    };
 
  
 
     const goToAnotherRoute = () => {
         navigate("/search");
     };
-
-    function convertToLatLng(coordinates) {
-        if (!Array.isArray(coordinates)) {
-            console.error("coordinates não é um array", coordinates);
-            return [];
-        }
-        return coordinates.map(coord => L.latLng(coord[1], coord[0]));
-    }
 
     const fetchPolygonData = async () => {
         setIsLoading(true);
