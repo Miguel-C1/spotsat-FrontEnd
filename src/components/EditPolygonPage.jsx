@@ -4,7 +4,6 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-draw/dist/leaflet.draw.css";
 import "../styles/home.css";
 import useApiPrivate from "../hooks/hookApiPrivate.ts";
-import { PolygonType, PointType } from "../types/polygon.ts";
 import { useParams, useNavigate } from "react-router-dom";
 import proj4 from "proj4";
 import * as L from "leaflet";
@@ -29,8 +28,8 @@ const EditorPolygonPage = () => {
     const navigate = useNavigate();
 
     const api = useApiPrivate();
-    const [position] = useState<[number, number]>([-14.2350, -51.9253]); // Posição inicial do mapa
-    const [polygon, setPolygon] = useState<PolygonType | undefined | PointType >(undefined);
+    const [position] = useState([-14.2350, -51.9253]); // Posição inicial do mapa
+    const [polygon, setPolygon] = useState(undefined);
     const [isLoading, setIsLoading] = useState(true);
 
 
@@ -43,7 +42,7 @@ const EditorPolygonPage = () => {
     const fetchPolygonData = async () => {
         setIsLoading(true);
         try {
-            const response = await api.get<PolygonType>(`/polygons/${id}`);
+            const response = await api.get(`/polygons/${id}`);
             const data = response.data;
             console.log(data);
                 setPolygon(data);

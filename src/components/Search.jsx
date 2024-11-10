@@ -6,7 +6,7 @@ import "../styles/search.css";
 
 const Search = () => {
     const [polygons, setPolygons] = useState([]);
-    const [searchTerm, setSearchTerm] = useState<string>(''); // Estado para o termo de busca
+    const [searchTerm, setSearchTerm] = useState(''); // Estado para o termo de busca
     const navigate = useNavigate();
     const api = useApiPrivate();
 
@@ -21,7 +21,7 @@ const Search = () => {
         };
         
         fetchPolygons();
-    }, []);
+    }, [api]);
 
     const handleEdit = (id) => {
         navigate(`/edit/${id}`);

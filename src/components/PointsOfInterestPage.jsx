@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { MapContainer, TileLayer, Polygon } from "react-leaflet";
+import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-draw/dist/leaflet.draw.css";
-import { LatLngExpression } from 'leaflet';
 import "../styles/home.css";
 import useApiPrivate from "../hooks/hookApiPrivate.ts";
-import { PolygonType } from "../types/polygon.ts";
 import { useParams, useNavigate } from "react-router-dom";
 import proj4 from "proj4";
 import * as L from "leaflet";
@@ -29,7 +27,7 @@ const PointsOfInterestPage = () => {
     const navigate = useNavigate();
 
     const api = useApiPrivate();
-    const [position, setPosition] = useState<[number, number]>([-14.2350, -51.9253]); // Posição inicial do mapa
+    const [position] = useState([-14.2350, -51.9253]); // Posição inicial do mapa
     const [isLoading, setIsLoading] = useState(true);
 
     const goToAnotherRoute = () => {
@@ -37,9 +35,9 @@ const PointsOfInterestPage = () => {
     };
 
     const fetchPolygonData = async () => {
-        setIsLoading(true); // Começa o carregamento
+        setIsLoading(true);
         try {
-            api.get<PolygonType>(`/polygons/${id}`);
+            api.get(`/polygons/${id}`);
        
 
         } catch (error) {

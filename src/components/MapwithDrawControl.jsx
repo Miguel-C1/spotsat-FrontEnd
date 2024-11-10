@@ -8,7 +8,7 @@ import useApiPrivate from "../hooks/hookApiPrivate.ts";
 
 const MapWithDrawControl = ({ geoJsonUrl, url }) => {
     const map = useMap();
-    const [geojson, setGeojson] = useState<GeoJSON.FeatureCollection | null>(null);
+    const [geojson, setGeojson] = useState(null);
     const featureGroupRef = useRef(new L.FeatureGroup());
     const api = useApiPrivate();
     const [polygonName, setPolygonName] = useState("");
@@ -65,7 +65,7 @@ const MapWithDrawControl = ({ geoJsonUrl, url }) => {
             map.removeControl(drawControl);
             map.removeLayer(featureGroup);
         };
-    }, [map, geoJsonUrl]);
+    }, [map, geoJsonUrl, api]);
 
     const handleSendGeoJson = () => {
         if (url && geojson) {

@@ -1,12 +1,12 @@
 import React from 'react';
 import Login from './components/Login.tsx';
-import Home from './components/Home.tsx';
+import Home from './components/Home.jsx';
 import Layout from './components/Laayout.tsx';
-import AuthRequirer from './components/AuthRequirer.tsx';
-import Search from './components/Search.tsx';
-import EditPolygonPage from './components/EditPolygonPage.tsx';
-import PointsOfInterestPage from './components/PointsOfInterestPage.tsx';
-import SearchPolygonsByRadius from './components/SearchPolygonsByRadius .jsx';
+import AuthRequirer from './components/AuthRequirer.jsx';
+import Search from './components/Search.jsx';
+import EditPolygonPage from './components/EditPolygonPage.jsx';
+import PointsOfInterestPage from './components/PointsOfInterestPage.jsx';
+import SearchPolygonsByRadius from './components/SearchPolygonsByRadius.jsx';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 function App() {
