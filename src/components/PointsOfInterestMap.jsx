@@ -22,12 +22,11 @@ const PointsOfInterestMap = ({ url }) => {
                 const transformedData = data.map((point) => {
                     const coordinates = point.geometry.coordinates;
 
-                    // Verifique se é um Point ou Polygon
                     const transformedCoordinates = point.geometry.type === "Point"
-                        ? proj4("EPSG:5880", "EPSG:4326", coordinates) // Apenas uma coordenada para Point
+                        ? proj4("EPSG:5880", "EPSG:4326", coordinates)
                         : coordinates.map((coords) => 
                             coords.map(([x, y]) => proj4("EPSG:5880", "EPSG:4326", [x, y]))
-                        ); // Array de coordenadas para Polygon
+                        ); 
 
                     return {
                         ...point,
