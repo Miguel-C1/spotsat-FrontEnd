@@ -8,7 +8,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import proj4 from "proj4";
 import * as L from "leaflet";
 import "proj4leaflet";
-import PointsOfInterestMap from "./PointsOfInterestMap.jsx";
+import PointsOfInterestMap from "../components/PointsOfInterestMap.jsx";
 
 L.Icon.Default.mergeOptions({
     iconRetinaUrl:

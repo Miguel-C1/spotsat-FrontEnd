@@ -8,7 +8,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import proj4 from "proj4";
 import * as L from "leaflet";
 import "proj4leaflet";
-import MapWithDrawControlEdit from "./MapwithDrawControlEdit.jsx";
+import MapWithDrawControlEdit from "../components/MapwithDrawControlEdit.jsx";
 
 
 L.Icon.Default.mergeOptions({

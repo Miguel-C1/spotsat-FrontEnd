@@ -25,7 +25,7 @@ const MapWithDrawControlEdit = ({ url, polygon }) => {
     const convertToLatLng = (coordinates) => {
         return coordinates.map(([x, y]) => {
             const [lon, lat] = proj4("EPSG:5880", "EPSG:4326", [x, y]);
-            return [lon, lat]; // Leaflet espera coordenadas [latitude, longitude]
+            return [lon, lat];
         });
     };
 

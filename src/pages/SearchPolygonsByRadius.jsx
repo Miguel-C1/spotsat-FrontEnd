@@ -5,7 +5,7 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-draw/dist/leaflet.draw.css";
 import "../styles/home.css";
 import { useNavigate } from "react-router-dom";
-import PointsOfInterestMapByRadius from "./PointsOfInterestMapByRadius.jsx";
+import PointsOfInterestMapByRadius from "../components/PointsOfInterestMapByRadius.jsx";
 
 const SearchPolygonsByRadius = () => {
     const [latitude, setLatitude] = useState("");

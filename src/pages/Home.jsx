@@ -8,7 +8,7 @@ import AuthContext from "../context/ProviderAuth.tsx";
 import * as L from "leaflet";
 import proj4 from "proj4";
 import "proj4leaflet";
-import MapWithDrawControl from "./MapwithDrawControl.jsx";
+import MapWithDrawControl from "../components/MapwithDrawControl.jsx";
 
 L.Icon.Default.mergeOptions({
     iconRetinaUrl:
